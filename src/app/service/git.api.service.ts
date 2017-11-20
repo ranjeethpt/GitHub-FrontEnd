@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Observable';
 import { PullResponse } from '../model/PullResponse';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
+import { MergeResponse } from '../model/MergeResponse';
 
 
 @Injectable()
@@ -30,6 +31,14 @@ export class GitApiService {
         });
         return this.http.get(url, {headers})
             .catch(this.handleError);
+    }
+
+    merge(owner: string, repo: string, number: number): Observable<MergeResponse> {
+        const url = `${this.apiUrl}/repos/${owner}/${repo}/pulls/${number}/merge`;
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+        return this.http.put(url, {}, {headers}).catch(this.handleError);
     }
 
     private handleError(error: any): Observable<any> {

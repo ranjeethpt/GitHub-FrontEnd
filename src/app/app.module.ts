@@ -13,6 +13,7 @@ import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 import { HomeComponent } from './home/home.component';
 import { GitApiService } from './service/git.api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
         AppComponent,
         HomeComponent
     ],
-    providers: [GitApiService],
+    providers: [GitApiService,
+        DatePipe],
     bootstrap: [AppComponent]
 })
 export class AppModule {

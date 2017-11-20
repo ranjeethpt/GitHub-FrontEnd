@@ -1,5 +1,8 @@
 <div>
     <ng-template ngFor let-item [ngForOf]="result">
-        <li>{{item.id}} - {{item.number}} - {{item.title}} - {{item.state}}</li>
+        <li>{{item.id}} - {{item.number}} - {{item.title}} - {{item.state}} -
+            {{item.created_at|date}}:{{item.created_at|date:'shortTime'}} -
+            {{item.updated_at|date}}:{{item.updated_at|date:'shortTime'}}
+        </li>
     </ng-template>
 </div>
