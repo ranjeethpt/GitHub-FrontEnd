@@ -6,6 +6,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GitApiService } from '../service/git.api.service';
 import { PullResponse } from '../model/PullResponse';
+import { MergeResponse } from '../model/MergeResponse';
 
 @Component({
     selector: 'my-home',
@@ -13,17 +14,20 @@ import { PullResponse } from '../model/PullResponse';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    result: PullResponse[];
+    pullResponses: PullResponse[];
+    mergeResponse: MergeResponse;
 
     constructor(private gitApiService: GitApiService) {
-        this.result = [];
+        this.pullResponses = [];
         this.gitApiService = gitApiService;
     }
 
     ngOnInit() {
-        console.log('Hello Home');
         this.gitApiService.getAllPullRequest('philipsorst', 'angular-rest-springsecurity').subscribe(data => {
-            this.result = data
+            this.pullResponses = data
+        });
+        this.gitApiService.merge('philipsorst', 'angular-rest-springsecurity', 26).subscribe(data => {
+            this.mergeResponse = data
         });
     }
 

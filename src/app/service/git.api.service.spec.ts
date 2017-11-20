@@ -110,12 +110,12 @@ describe('GitApiService', () => {
                 let httpRequest = backend.expectOne((apiHttpRequest: HttpRequest<any>) => {
                     return apiHttpRequest.method === 'PUT'
                         && Object.keys(apiHttpRequest.body).length === 0 && apiHttpRequest.body.constructor === Object
-                        && apiHttpRequest.url === 'https://api.github.com/repos/Thanos/Guardians-Of-Galaxy/pulls/124/merge'
+                        && apiHttpRequest.url === 'https://api.github.com/repos/Thanos/Guardians-Of-Galaxy/pulls/123/merge'
                         && apiHttpRequest.headers.get('Content-Type') === 'application/json'
                 });
 
-                httpRequest.flush(null, {status: 400, statusText: 'You are allow to join.!!!'});
-                expect<ResponseOrError>(errorResponse).toEqual('You are not a Guardian.!!!');
+                httpRequest.flush(null, {status: 400, statusText: 'You are not allowed to join.!!!'});
+                expect<ResponseOrError>(errorResponse).toEqual('You are not allowed to join.!!!');
             }))
     );
 

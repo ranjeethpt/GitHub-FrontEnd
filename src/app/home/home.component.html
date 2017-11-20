@@ -1,8 +1,13 @@
 <div>
-    <ng-template ngFor let-item [ngForOf]="result">
+    <ng-template ngFor let-item [ngForOf]="pullResponses">
         <li>{{item.id}} - {{item.number}} - {{item.title}} - {{item.state}} -
             {{item.created_at|date}}:{{item.created_at|date:'shortTime'}} -
             {{item.updated_at|date}}:{{item.updated_at|date:'shortTime'}}
         </li>
     </ng-template>
+</div>
+
+<div>
+    <p>Error!!!</p>
+    {{mergeResponse}}
 </div>
