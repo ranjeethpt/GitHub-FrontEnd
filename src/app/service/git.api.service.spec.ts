@@ -69,7 +69,7 @@ describe('GitApiService', () => {
                 });
 
                 httpRequest.flush(null, {status: 400, statusText: 'You are not a Guardian.!!!'});
-                expect<ResponseOrError>(errorResponse).toEqual('You are not a Guardian.!!!');
+                expect<ResponseOrError>(errorResponse).toEqual('https://api.github.com/repos/Thanos/Guardians-Of-Galaxy/pulls : You are not a Guardian.!!!');
             }))
     );
 
@@ -115,7 +115,7 @@ describe('GitApiService', () => {
                 });
 
                 httpRequest.flush(null, {status: 400, statusText: 'You are not allowed to join.!!!'});
-                expect<ResponseOrError>(errorResponse).toEqual('You are not allowed to join.!!!');
+                expect<ResponseOrError>(errorResponse).toEqual('https://api.github.com/repos/Thanos/Guardians-Of-Galaxy/pulls/123/merge : You are not allowed to join.!!!');
             }))
     );
 

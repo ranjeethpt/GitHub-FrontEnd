@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="pullResponses">
     <ng-template ngFor let-item [ngForOf]="pullResponses">
         <li>{{item.id}} - {{item.number}} - {{item.title}} - {{item.state}} -
             {{item.created_at|date}}:{{item.created_at|date:'shortTime'}} -
@@ -8,6 +8,6 @@
 </div>
 
 <div>
-    <p>Error!!!</p>
-    {{mergeResponse}}
+    <p *ngIf="pullRequestError">Error While Pulling!!! : {{pullRequestError}}</p>
+    <p *ngIf="mergeRequestError">Error while Merging!!! : {{mergeRequestError}}</p>
 </div>

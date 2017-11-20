@@ -43,7 +43,7 @@ export class GitApiService {
 
     private handleError(error: any): Observable<any> {
         console.error('An error occurred', error);
-        return Observable.of(error.statusText || error);
+        return Observable.of(`${error.url} : ${error.statusText}` || error);
     }
 
 }

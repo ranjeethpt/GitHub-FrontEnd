@@ -16,6 +16,8 @@ import { MergeResponse } from '../model/MergeResponse';
 export class HomeComponent implements OnInit {
     pullResponses: PullResponse[];
     mergeResponse: MergeResponse;
+    pullRequestError: string;
+    mergeRequestError: string;
 
     constructor(private gitApiService: GitApiService) {
         this.pullResponses = [];
@@ -23,11 +25,20 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.gitApiService.getAllPullRequest('philipsorst', 'angular-rest-springsecurity').subscribe(data => {
-            this.pullResponses = data
+        this.gitApiService.getAllPullRequest('groot', 'GoG').subscribe(data => {
+            if (typeof data === 'string') {
+                this.pullRequestError = data;
+            } else {
+                this.pullResponses = data
+            }
         });
         this.gitApiService.merge('philipsorst', 'angular-rest-springsecurity', 26).subscribe(data => {
-            this.mergeResponse = data
+            if (typeof data === 'string') {
+                this.mergeRequestError = data;
+            }
+            else {
+                this.mergeResponse = data
+            }
         });
     }
 
