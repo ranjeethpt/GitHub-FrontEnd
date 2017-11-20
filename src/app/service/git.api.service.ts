@@ -25,7 +25,7 @@ export class GitApiService {
     }
 
     getAllPullRequest(owner: string, repo: string): Observable<PullResponse[]> {
-        const url = `${this.apiUrl}/repos/${owner}/${repo}/pulls`;
+        const url = `${this.apiUrl}/repos/${owner}/${repo}/pulls?state=all`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });

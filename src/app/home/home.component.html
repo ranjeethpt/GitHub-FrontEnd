@@ -1,13 +1,79 @@
-<div *ngIf="pullResponses">
-    <ng-template ngFor let-item [ngForOf]="pullResponses">
-        <li>{{item.id}} - {{item.number}} - {{item.title}} - {{item.state}} -
-            {{item.created_at|date}}:{{item.created_at|date:'shortTime'}} -
-            {{item.updated_at|date}}:{{item.updated_at|date:'shortTime'}}
-        </li>
-    </ng-template>
+<div>
+    <form [formGroup]="rForm" (ngSubmit)="getAllPullRequest(rForm.value)">
+        <div class="form-container">
+            <div class="row columns">
+                <h1>Git Api form</h1>
+                <label>Owner
+                    <input type="text" formControlName="owner">
+                </label>
+                <div class="alert" *ngIf="!rForm.controls['owner'].valid && rForm.controls['owner'].touched">{{ titleAlert }}</div>
+
+                <label>Repo
+                    <input type="text" formControlName="repo">
+                </label>
+                <div class="alert" *ngIf="!rForm.controls['repo'].valid && rForm.controls['repo'].touched">{{ titleAlert }}</div>
+                <input type="submit" class="button expanded" value="Submit Form" [disabled]="!rForm.valid && isDataPulling">
+                <div>
+                    <p *ngIf="pullRequestError" class="git-api-error">Error While Pulling!!! : {{pullRequestError}}</p>
+                    <p *ngIf="mergeRequestError" class="git-api-error">Error while Merging!!! : {{mergeRequestError}}</p>
+                    <p *ngIf="!isDataPulling && pullResponses.length == 0 && userClicked" class="git-api-error">No Data found</p>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
-<div>
-    <p *ngIf="pullRequestError">Error While Pulling!!! : {{pullRequestError}}</p>
-    <p *ngIf="mergeRequestError">Error while Merging!!! : {{mergeRequestError}}</p>
+<div *ngIf="pullResponses" class="git-api-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" class="git-api-table">
+
+        <!-- Number Column -->
+        <ng-container matColumnDef="number">
+            <mat-header-cell *matHeaderCellDef>#Number</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.number }}</mat-cell>
+        </ng-container>
+
+        <!-- Id Column -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>#Id</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.id }}</mat-cell>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.title }}</mat-cell>
+        </ng-container>
+
+        <!-- State Column -->
+        <ng-container matColumnDef="state">
+            <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <a (click)="merge(row.number)" *ngIf="row.state == 'open'">{{ row.state }}</a>
+                <label *ngIf="row.state != 'open'" class="git-api-state-not-open">{{ row.state }}</label>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Created Column -->
+        <ng-container matColumnDef="created">
+            <mat-header-cell *matHeaderCellDef
+                             mat-sort-header
+                             disableClear="true">
+                Created
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.created_at | date }}</mat-cell>
+        </ng-container>
+
+        <!-- Updated Column -->
+        <ng-container matColumnDef="updated">
+            <mat-header-cell *matHeaderCellDef
+                             mat-sort-header
+                             disableClear="true">
+                Updated
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.updated_at | date }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 </div>

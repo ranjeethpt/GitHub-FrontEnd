@@ -5,7 +5,7 @@
 
 import { ApplicationRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 
@@ -14,13 +14,16 @@ import { HomeComponent } from './home/home.component';
 import { GitApiService } from './service/git.api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { MatTableModule } from '@angular/material';
 
 @NgModule({
     imports: [
         BrowserModule,
         HttpClientModule,
         FormsModule,
-        routing
+        routing,
+        ReactiveFormsModule,
+        MatTableModule
     ],
     declarations: [
         AppComponent,

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 import { GitApiService } from '../service/git.api.service';
 import { PullResponse } from '../model/PullResponse';
 import { MergeResponse } from '../model/MergeResponse';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
     selector: 'my-home',
@@ -18,25 +20,55 @@ export class HomeComponent implements OnInit {
     mergeResponse: MergeResponse;
     pullRequestError: string;
     mergeRequestError: string;
+    isDataPulling: boolean = false;
+    userClicked: boolean = false;
+    // Form related
+    rForm: FormGroup;
+    titleAlert: string = 'This field is required';
+    owner: string;
+    repo: string;
+    // Table
+    dataSource = new MatTableDataSource();
+    displayedColumns = ['created', 'updated', 'id', 'number', 'title', 'state'];
 
-    constructor(private gitApiService: GitApiService) {
+    constructor(private gitApiService: GitApiService, formBuilder: FormBuilder) {
         this.pullResponses = [];
         this.gitApiService = gitApiService;
+        this.owner = 'angular';
+        this.repo = 'angular';
+        this.rForm = formBuilder.group({
+            'owner': [this.owner, Validators.required],
+            'repo': [this.repo, Validators.required]
+        });
     }
 
     ngOnInit() {
-        this.gitApiService.getAllPullRequest('groot', 'GoG').subscribe(data => {
+        console.log('HomeComponent Initialised.');
+    }
+
+    getAllPullRequest(formData): void {
+        this.isDataPulling = true;
+        this.userClicked = true;
+        this.pullRequestError = '';
+        this.gitApiService.getAllPullRequest(formData.owner, formData.repo).subscribe(data => {
             if (typeof data === 'string') {
                 this.pullRequestError = data;
+                this.pullResponses = [];
+                this.dataSource.data = [];
             } else {
-                this.pullResponses = data
+                this.pullResponses = data;
+                this.dataSource.data = this.pullResponses;
             }
+            this.isDataPulling = false;
         });
-        this.gitApiService.merge('philipsorst', 'angular-rest-springsecurity', 26).subscribe(data => {
+    }
+
+    merge(number: number): void {
+        this.mergeRequestError = '';
+        this.gitApiService.merge(this.owner, this.repo, number).subscribe(data => {
             if (typeof data === 'string') {
                 this.mergeRequestError = data;
-            }
-            else {
+            } else {
                 this.mergeResponse = data
             }
         });
