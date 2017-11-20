@@ -70,3 +70,9 @@ You can now go to `/dist` and deploy that to your server!
 You can generate api docs (using [TypeDoc](http://typedoc.org/)) for your code with the following:
 
 * `npm run docs`
+
+
+## Thanks / Reference
+* [angular-webpack](https://github.com/preboot/angular-webpack)
+* [angular-io](https://angular.io/)
+* [angular-material-table](https://material.angular.io/components/table/examples)
