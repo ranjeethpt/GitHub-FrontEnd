@@ -1,1 +1,5 @@
-<div>{{result}}</div>
+<div>
+    <ng-template ngFor let-item [ngForOf]="result">
+        <li>{{item.id}} - {{item.number}} - {{item.title}} - {{item.state}}</li>
+    </ng-template>
+</div>

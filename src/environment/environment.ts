@@ -5,5 +5,5 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'http://I.dont.know.the.api.right.now/api',
+    apiUrl: 'https://api.github.com',
 };

@@ -4,6 +4,8 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { GitApiService } from '../service/git.api.service';
+import { PullResponse } from '../model/PullResponse';
 
 @Component({
     selector: 'my-home',
@@ -11,14 +13,18 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    result: string;
+    result: PullResponse[];
 
-    constructor() {
-        this.result = `Git data here.`;
+    constructor(private gitApiService: GitApiService) {
+        this.result = [];
+        this.gitApiService = gitApiService;
     }
 
     ngOnInit() {
         console.log('Hello Home');
+        this.gitApiService.getAllPullRequest('philipsorst', 'angular-rest-springsecurity').subscribe(data => {
+            this.result = data
+        });
     }
 
 }
